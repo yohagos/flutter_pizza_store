@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "972122993951",
+    "project_id": "flutter-pizza-delivery",
+    "storage_bucket": "flutter-pizza-delivery.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:972122993951:android:ba7326590cde0afb2aac2a",
+        "android_client_info": {
+          "package_name": "yohagos.pizza.delivery"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDt9P4kNxSMw9aWDQ1A8VyVXhVCaVjSr6U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
