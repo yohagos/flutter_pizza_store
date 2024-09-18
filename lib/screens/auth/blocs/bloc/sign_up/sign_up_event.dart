@@ -19,3 +19,4 @@ class SignUpRequired extends SignUpEvent {
   @override
   List<Object> get props => [myUser, password];
 }
+

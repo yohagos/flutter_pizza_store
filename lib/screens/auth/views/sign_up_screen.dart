@@ -1,8 +1,10 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pizza_app/components/my_text_field.dart';
 import 'package:pizza_app/screens/auth/blocs/bloc/sign_up/sign_up_bloc.dart';
+import 'package:user_repository/user_repository.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -170,15 +172,117 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('1 Uppercase'),
-                      Text('1 Lowercase'),
-                      Text('1 number'),
+                      Text(
+                        '1 Uppercase',
+                        style: TextStyle(
+                            color: containsUpperCase
+                                ? Colors.green
+                                : Theme.of(context).colorScheme.onSurface),
+                      ),
+                      Text(
+                        '1 Lowercase',
+                        style: TextStyle(
+                            color: containsLowerCase
+                                ? Colors.green
+                                : Theme.of(context).colorScheme.onSurface),
+                      ),
+                      Text(
+                        '1 number',
+                        style: TextStyle(
+                            color: containsNumber
+                                ? Colors.green
+                                : Theme.of(context).colorScheme.onSurface),
+                      ),
                     ],
                   ),
-                  Column(),
-                  Column(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "1 special character",
+                        style: TextStyle(
+                            color: containsSpecialChar
+                                ? Colors.green
+                                : Theme.of(context).colorScheme.onSurface),
+                      ),
+                      Text(
+                        "8 minimum character",
+                        style: TextStyle(
+                            color: containsSpecialChar
+                                ? Colors.green
+                                : Theme.of(context).colorScheme.onSurface),
+                      ),
+                    ],
+                  ),
                 ],
               ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: MyTextField(
+                  controller: nameController,
+                  hintText: 'Name',
+                  obscureText: false,
+                  keyboardType: TextInputType.name,
+                  prefixIcon: const Icon(CupertinoIcons.person_fill),
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return 'Please fill in this field';
+                    } else if (val.length > 30) {
+                      return 'Name too long';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.2
+              ),
+              !signUpRequired ? SizedBox(
+                width: MediaQuery.of(context).size.width * 0.5,
+                child: TextButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      MyUser myUser = MyUser.empty;
+                      myUser.email = emailController.text;
+                      myUser.name = nameController.text;
+
+                      setState(() {
+                        context.read<SignUpBloc>().add(
+                          SignUpRequired(
+                            myUser, 
+                            passwordController.text
+                          )
+                        );
+                      });
+                    }
+                  },
+                  style: TextButton.styleFrom(
+                    elevation: 3.0,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(60),
+                    )
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 25,
+                      vertical: 5
+                    ),
+                    child: Text(
+                      'Sign Up',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600
+                      ),
+                    ),
+                  ),
+                ),
+              )
+              : const CircularProgressIndicator()
             ],
           ),
         ),
